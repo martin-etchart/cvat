@@ -106,32 +106,47 @@ def _save_task_to_db(db_task):
     job.save_meta()
 
     segment_size = db_task.segment_size
-    segment_step = segment_size
+    # segment_step = segment_size
     if segment_size == 0:
         segment_size = db_task.size
 
         # Segment step must be more than segment_size + overlap in single-segment tasks
         # Otherwise a task contains an extra segment
-        segment_step = sys.maxsize
+        # segment_step = sys.maxsize
 
     default_overlap = 5 if db_task.mode == 'interpolation' else 0
     if db_task.overlap is None:
         db_task.overlap = default_overlap
     db_task.overlap = min(db_task.overlap, segment_size  // 2)
 
-    segment_step -= db_task.overlap
+    # segment_step -= db_task.overlap
 
-    for x in range(0, db_task.size, segment_step):
-        start_frame = x
-        stop_frame = min(x + segment_size - 1, db_task.size - 1)
+    # for x in range(0, db_task.size, segment_step):
+    #     start_frame = x
+    #     stop_frame = min(x + segment_size - 1, db_task.size - 1)
+
+    #     slogger.glob.info("New segment for task #{}: start_frame = {}, \
+    #         stop_frame = {}".format(db_task.id, start_frame, stop_frame))
+
+    #     db_segment = models.Segment()
+    #     db_segment.task = db_task
+    #     db_segment.start_frame = start_frame
+    #     db_segment.stop_frame = stop_frame
+    #     db_segment.save()
+
+    #     db_job = models.Job()
+    #     db_job.segment = db_segment
+    #     db_job.save()
+
+    for job_idx in range(3):
 
         slogger.glob.info("New segment for task #{}: start_frame = {}, \
             stop_frame = {}".format(db_task.id, start_frame, stop_frame))
 
         db_segment = models.Segment()
         db_segment.task = db_task
-        db_segment.start_frame = start_frame
-        db_segment.stop_frame = stop_frame
+        db_segment.start_frame = 0
+        db_segment.stop_frame = db_task.size
         db_segment.save()
 
         db_job = models.Job()

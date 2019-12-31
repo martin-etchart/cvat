@@ -1,0 +1,22 @@
+version: "2.3"
+
+services:
+  cvat:
+    environment:
+      ALLOWED_HOSTS: "*"
+      CVAT_SHARE_URL: "Mounted from /data host directory"
+      UI_HOST: mvd0000xlrndtl1
+    volumes:
+      - cvat_share:/home/django/share:ro
+
+  cvat_ui:
+    build:
+      args:
+        REACT_APP_API_HOST: mvd0000xlrndtl1
+
+volumes:
+  cvat_share:
+    driver_opts:
+      type: none
+      device: /data
+      o: bind
