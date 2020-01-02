@@ -141,7 +141,7 @@ def _save_task_to_db(db_task):
     for job_idx in range(3):
 
         start_frame = 0
-        stop_frame = db_task.size
+        stop_frame = db_task.size - 1
 
         slogger.glob.info("New segment for task #{}: start_frame = {}, \
             # stop_frame = {}".format(db_task.id, start_frame, stop_frame))
