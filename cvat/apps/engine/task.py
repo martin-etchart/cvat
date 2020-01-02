@@ -140,13 +140,16 @@ def _save_task_to_db(db_task):
 
     for job_idx in range(3):
 
+        start_frame = 0
+        stop_frame = db_task.size
+
         slogger.glob.info("New segment for task #{}: start_frame = {}, \
-            stop_frame = {}".format(db_task.id, start_frame, stop_frame))
+            # stop_frame = {}".format(db_task.id, start_frame, stop_frame))
 
         db_segment = models.Segment()
         db_segment.task = db_task
-        db_segment.start_frame = 0
-        db_segment.stop_frame = db_task.size
+        db_segment.start_frame = start_frame
+        db_segment.stop_frame = stop_frame
         db_segment.save()
 
         db_job = models.Job()
